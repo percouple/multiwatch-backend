@@ -1,0 +1,11 @@
+# Node modules folder
+node_modules/
+
+# Log files
+*.log
+
+# Environment variable file
+.env
+
+# Debugger folder for VSCode
+.vscode/
