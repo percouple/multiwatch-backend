@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id               String   @id @default(cuid())
+  username         String   @unique
+  password         String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+  Clocks           Clocks[]
+  theme_preference String   @default("light")
+}
+
+model Clocks {
+  id               String   @id @default(cuid())
+  user             Users    @relation(fields: [userId], references: [id])
+  userId           String
+  name             String
+  lastSessionTime  Int
+  todaySessionTime Int
+  thisWeekTime     Int
+  allTime          Int
+  editing          Boolean
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+}
