@@ -1,6 +1,3 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
 import prisma from "./db";
 
 export async function deleteClock(id: string, userId: string) {
@@ -50,8 +47,6 @@ export async function updateClockFromPunchOut(clock: any) {
       allTime: allTime,
     },
   });
-
-  await revalidatePath(`/clocks/${clock.userId}`);
 }
 
 export async function addClock(userId) {
@@ -67,7 +62,6 @@ export async function addClock(userId) {
         allTime: 0,
       },
     });
-    revalidatePath(`/clocks/${userId}`);
     return {message: "Added clock successfully"}
   } catch {
     return { message: "Failed to Add clock" };
