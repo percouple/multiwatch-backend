@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const initialUsers: Prisma.UsersCreateInput[] = [
+const initialUsers = [
   {
     username: "harold",
     password: "1234",

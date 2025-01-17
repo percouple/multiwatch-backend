@@ -4,6 +4,12 @@ const prisma = new PrismaClient()
 
 async function main() {
   // ... you will write your Prisma Client queries here
+  const user = await prisma.users.findFirst({
+    data: {
+        username: 'harold',
+    }
+  })
+  console.log(user)
 }
 
 main()
