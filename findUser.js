@@ -1,24 +1,23 @@
 import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 
-export default function findUser() {
+export default async function findUser(username) {
 
   const prisma = new PrismaClient()
   
   async function main() {
-    // ... you will write your Prisma Client queries here
     const user = await prisma.users.findFirst({
       where: {
-        username: 'bob',
+        username: username,
       }
     })
-    console.log(user)
-    return user
+    return user;
   }
   
-  const result = main()
-  .then(async () => {
+  return main()
+  .then(async (result) => {
     await prisma.$disconnect()
+    return result;
   })
   .catch(async (e) => {
     console.error(e)
@@ -26,5 +25,4 @@ export default function findUser() {
     process.exit(1)
   })
   
-  return result;
 }

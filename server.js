@@ -5,16 +5,15 @@ import 'dotenv/config'
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json())
+
 app.get('/', async (req, res) => {
     try {
-        const user = findUser();
-        console.log("Request happening")
-        res.status(200)
-        res.json({ message: "Heyo json working my man"})
+        const user = await findUser(req.body.username);
+        res.status(200).json(user)
     }
     catch {
-        res.status(400)
-        res.json({ message: "Heyo it broke"})
+        res.status(400).json({ message: "Heyo it broke"})
     }
 })
 
