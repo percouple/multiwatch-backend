@@ -1,14 +1,15 @@
 import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 
-export default async function findUser(username) {
+export default async function findUser(userId) {
 
   const prisma = new PrismaClient()
   
   async function main() {
-    const user = await prisma.users.findFirst({
+    console.log(userId)
+    const user = await prisma.users.findUnique({
       where: {
-        username: username,
+        id: userId,
       }
     })
     return user;

@@ -7,10 +7,16 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json())
 
-app.get('/get-user', async (req, res, next) => {
+app.post('/get-user', async (req, res, next) => {
     try {
-        const user = await findUser(req.body.username);
-        res.status(200).json(user)
+        console.log("routing")
+        console.log(req.body)
+        let user;
+        if (!req.body.id) {
+            user = createNewUser();
+        }
+        user = await findUser(req.body.id);
+        res.status(200).json({user: user, message: "YA DID IT"})
     }
     catch {
         res.status(400).json({ message: "Heyo it broke"})
