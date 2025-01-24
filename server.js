@@ -1,5 +1,7 @@
 import express from "express";
 import findUser from './findUser.js';
+import authenticateUser from "./authUser.js";
+import getUserClocks from "./getUserClocks.js";
 import 'dotenv/config'
 
 const app = express();
@@ -9,8 +11,6 @@ app.use(express.json())
 
 app.post('/get-user', async (req, res, next) => {
     try {
-        console.log("routing")
-        console.log(req.body)
         let user;
         if (!req.body.id) {
             user = createNewUser();
@@ -20,6 +20,26 @@ app.post('/get-user', async (req, res, next) => {
     }
     catch {
         res.status(400).json({ message: "Heyo it broke"})
+    }
+})
+
+app.post('/auth-user', async (req, res, next) => {
+    try {
+        const user = await authenticateUser(req.body.username, req.body.password);
+        res.status(200).json({user: user, message: "YA DID IT"})
+    }
+    catch {
+        res.status(400).json({ message: "User not found"})
+    }
+});
+
+app.post('/get-user-clocks', async (req, res, next) => {
+    try {
+        const clocks = await getUserClocks(req.body.userId);
+        res.status(200).json({clocks: clocks, message: "YA DID IT"})
+    }
+    catch {
+        res.status(400).json({ message: "User's clocks not found"})
     }
 })
 

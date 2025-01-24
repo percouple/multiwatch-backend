@@ -1,20 +1,18 @@
-import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 
-export default async function findUser(userId) {
+export default async function getUserClocks(id) {
 
   const prisma = new PrismaClient()
   
   async function main() {
-    console.log(userId)
-    const user = await prisma.users.findUnique({
+    const clocks = await prisma.clocks.findMany({
       where: {
-        id: userId,
+        userId: id,
       }
     })
-    return user;
+    return clocks;
   }
-
+  
   return main()
   .then(async (result) => {
     await prisma.$disconnect()
