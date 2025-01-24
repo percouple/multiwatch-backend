@@ -2,6 +2,7 @@ import express from "express";
 import findUser from './findUser.js';
 import authenticateUser from "./authUser.js";
 import getUserClocks from "./getUserClocks.js";
+import createNewClock from './createNewClock.js'
 import 'dotenv/config'
 
 const app = express();
@@ -45,9 +46,11 @@ app.post('/get-user-clocks', async (req, res, next) => {
 
 app.post('/create-clock', async (req, res) => {
     try {
-        res.status(200).json()
-    } catch {
-        res.status(400).json({ message: "Heyo it broke"})
+        const newClock = await createNewClock(req.body.userId);
+        res.status(200).json({newClock: newClock, message: "YA DID IT"})
+    }
+    catch {
+        res.status(400).json({ message: "Clock not created"})
     }
 })
 
