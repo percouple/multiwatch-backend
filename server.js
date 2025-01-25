@@ -3,6 +3,7 @@ import findUser from './findUser.js';
 import authenticateUser from "./authUser.js";
 import getUserClocks from "./getUserClocks.js";
 import createNewClock from './createNewClock.js';
+import updateClock from "./updateClock.js";
 import createNewUser from "./createNewUser.js";
 import deleteClock from "./deleteClock.js";
 import 'dotenv/config'
@@ -63,6 +64,16 @@ app.delete('/delete-clock', async (req, res) => {
     }
     catch {
         res.status(400).json({ message: "Clock not deleted"})
+    }
+})
+
+app.put('/update-clock', async (req, res) => {
+    try {
+        const result = await updateClock(req.body.clockId, req.body.changeObj);
+        res.status(200).json({result: result, message: "YA DID IT"})
+    }
+    catch {
+        res.status(400).json({ message: "Clock not updated"})
     }
 })
 
