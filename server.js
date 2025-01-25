@@ -2,7 +2,8 @@ import express from "express";
 import findUser from './findUser.js';
 import authenticateUser from "./authUser.js";
 import getUserClocks from "./getUserClocks.js";
-import createNewClock from './createNewClock.js'
+import createNewClock from './createNewClock.js';
+import createNewUser from "./createNewUser.js";
 import 'dotenv/config'
 
 const app = express();
@@ -56,7 +57,12 @@ app.post('/create-clock', async (req, res) => {
 
 app.post('/create-user', async (req, res) => {
     try {
-        res.status(200).json()
+        const user = await createNewUser(req.body.username, req.body.password);
+        console.log(user)
+        if (user === null) {
+            return res.status(409).json({message: "Username is unavailable"})
+        }
+        res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
     } catch {
         res.status(400).json({ message: "Heyo it broke"})
     }

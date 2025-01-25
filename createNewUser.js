@@ -1,11 +1,23 @@
-import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 
-export default async function createNewUser(userId) {
+export default async function createNewUser(username, password) {
   const prisma = new PrismaClient();
 
   async function main() {
-    console.log(userId);
+
+    // Check for unique username
+    const alreadyExists = await prisma.users.findFirst({
+      where: {
+        username: username,
+      }
+    })
+
+    // Exit if it already exists
+    if (alreadyExists) {
+      return null;
+    }
+    
+    // Create the user
     const user = await prisma.users.create({
       data: {
         username: username,
@@ -13,7 +25,7 @@ export default async function createNewUser(userId) {
       },
     });
 
-    await addClock(user.id);
+    return user
   }
 
   return main()
