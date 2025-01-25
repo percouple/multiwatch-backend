@@ -4,6 +4,7 @@ import authenticateUser from "./authUser.js";
 import getUserClocks from "./getUserClocks.js";
 import createNewClock from './createNewClock.js';
 import createNewUser from "./createNewUser.js";
+import deleteClock from "./deleteClock.js";
 import 'dotenv/config'
 
 const app = express();
@@ -55,10 +56,19 @@ app.post('/create-clock', async (req, res) => {
     }
 })
 
+app.delete('/delete-clock', async (req, res) => {
+    try {
+        const res = await deleteClock(req.body.clockId);
+        res.status(200).json({res: res, message: "YA DID IT"})
+    }
+    catch {
+        res.status(400).json({ message: "Clock not deleted"})
+    }
+})
+
 app.post('/create-user', async (req, res) => {
     try {
         const user = await createNewUser(req.body.username, req.body.password);
-        console.log(user)
         if (user === null) {
             return res.status(409).json({message: "Username is unavailable"})
         }
