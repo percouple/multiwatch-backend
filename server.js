@@ -1,11 +1,11 @@
 import express from "express";
-import findUser from './findUser.js';
 import authenticateUser from "./authUser.js";
 import getUserClocks from "./getUserClocks.js";
 import createNewClock from './createNewClock.js';
 import updateClock from "./updateClock.js";
 import createNewUser from "./createNewUser.js";
 import deleteClock from "./deleteClock.js";
+import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 
 const app = express();
@@ -13,23 +13,21 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json())
 
-app.post('/get-user', async (req, res, next) => {
-    try {
-        let user;
-        if (!req.body.id) {
-            user = createNewUser();
-        }
-        user = await findUser(req.body.id);
-        res.status(200).json({user: user, message: "YA DID IT"})
-    }
-    catch {
-        res.status(400).json({ message: "Heyo it broke"})
-    }
-})
 
 app.post('/auth-user', async (req, res, next) => {
     try {
         const user = await authenticateUser(req.body.username, req.body.password);
+
+        // Generate a JWT (you should store a secret key securely)
+        const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: '1h' });
+        console.log(token)
+
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            sameSite: 'strict',
+            maxAge: 3600000
+        })
+
         res.status(200).json({user: user, message: "YA DID IT"})
     }
     catch {
