@@ -6,6 +6,7 @@ import updateClock from "./updateClock.js";
 import createNewUser from "./createNewUser.js";
 import deleteClock from "./deleteClock.js";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import 'dotenv/config'
 
 const app = express();
@@ -16,11 +17,11 @@ app.use(express.json())
 
 app.post('/auth-user', async (req, res, next) => {
     try {
-        const user = await authenticateUser(req.body.username, req.body.password);
+        const hashword = req.body.password;
+        const user = await authenticateUser(req.body.username, hashword);
 
         // Generate a JWT (you should store a secret key securely)
         const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: '1h' });
-        console.log(token)
 
         res.cookie('authToken', token, {
             httpOnly: true,
@@ -28,7 +29,7 @@ app.post('/auth-user', async (req, res, next) => {
             maxAge: 3600000
         })
 
-        res.status(200).json({user: user, message: "YA DID IT"})
+        return res.status(200).json({user: user, message: "YA DID IT"})
     }
     catch {
         res.status(400).json({ message: "User not found"})
