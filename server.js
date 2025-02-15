@@ -18,19 +18,18 @@ app.use(express.json())
 app.post('/auth-user', async (req, res, next) => {
     try {
         // Hash password given by user
-        const hashword = await bcrypt.hash(req.body.password, 10)
-        .then(res => res)
-        .catch(err => console.log(err));
-        console.log(hashword)
+        // const hashword = await bcrypt.hash(req.body.password, 10)
+        // .then(res => res)
+        // .catch(err => console.log(err));
         
-        
-        const user = await authenticateUser(req.body.username, hashword);
+        const user = await authenticateUser(req.body.username);
 
-        console.log(user.password)
-        const validation = await bcrypt.compareSync(hashword, user.password);
+        // console.log("hashword: " + hashword)
+        console.log("user: " + user.password)
+        const validation = await bcrypt.compareSync(req.body.username, user.password);
         console.log(validation)
-
         if (!validation) {
+            console.log("RUNNING EX IT BAD PASSWORD")
             next({status: 404, message: "Username or password incorrect"})
         }
 
@@ -92,7 +91,9 @@ app.put('/update-clock', async (req, res) => {
 
 app.post('/create-user', async (req, res) => {
     try {
-        const user = await createNewUser(req.body.username, req.body.password);
+        const salt = await bcrypt.genSalt(10);
+        const hashword = await bcrypt.hash(req.body.password, salt);
+        const user = await createNewUser(req.body.username, hashword);
         if (user === null) {
             return res.status(409).json({message: "Username is unavailable"})
         }
