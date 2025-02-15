@@ -15,22 +15,13 @@ const port = process.env.PORT || 3000;
 app.use(express.json())
 
 
-app.post('/auth-user', async (req, res, next) => {
+app.post('/auth-user', async (req, res) => {
     try {
-        // Hash password given by user
-        // const hashword = await bcrypt.hash(req.body.password, 10)
-        // .then(res => res)
-        // .catch(err => console.log(err));
         
         const user = await authenticateUser(req.body.username);
-
-        // console.log("hashword: " + hashword)
-        console.log("user: " + user.password)
-        const validation = await bcrypt.compareSync(req.body.username, user.password);
-        console.log(validation)
+        const validation = await bcrypt.compareSync(req.body.password, user.password);
         if (!validation) {
-            console.log("RUNNING EX IT BAD PASSWORD")
-            next({status: 404, message: "Username or password incorrect"})
+            return res.status(404).json({ message: "Username or password incorrect"})
         }
 
         // Generate a JWT (you should store a secret key securely)
