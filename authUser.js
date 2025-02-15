@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client'
 
-export default async function authenticateUser(username, password) {
+export default async function authenticateUser(username) {
 
   const prisma = new PrismaClient()
   
   async function main() {
+
     const user = await prisma.users.findUnique({
       where: {
         username: username,
-        password: password
       }
     })
 

@@ -17,8 +17,22 @@ app.use(express.json())
 
 app.post('/auth-user', async (req, res, next) => {
     try {
-        const hashword = req.body.password;
+        // Hash password given by user
+        const hashword = await bcrypt.hash(req.body.password, 10)
+        .then(res => res)
+        .catch(err => console.log(err));
+        console.log(hashword)
+        
+        
         const user = await authenticateUser(req.body.username, hashword);
+
+        console.log(user.password)
+        const validation = await bcrypt.compareSync(hashword, user.password);
+        console.log(validation)
+
+        if (!validation) {
+            next({status: 404, message: "Username or password incorrect"})
+        }
 
         // Generate a JWT (you should store a secret key securely)
         const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: '1h' });

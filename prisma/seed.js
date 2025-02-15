@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const initialUsers = [
   {
     username: "harold",
-    password: "1234",
+    password: "$2a$10$r4r8z.L68gQNfseaq2qfreCwhp0XKvOGk6Ec4ALz5hTKVerJUhW3i",
     theme_preference: "dark",
     Clocks: {
       create: [
