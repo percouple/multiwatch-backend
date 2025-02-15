@@ -88,6 +88,7 @@ app.post('/create-user', async (req, res) => {
         if (user === null) {
             return res.status(409).json({message: "Username is unavailable"})
         }
+        await createNewClock(user.id);
         res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
     } catch {
         res.status(400).json({ message: "Heyo it broke"})
