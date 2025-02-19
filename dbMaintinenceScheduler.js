@@ -5,10 +5,9 @@ console.log(`* Cron scheduler is now running. *
 The system will now reset the daily and weekly timers of each clock appropriately.`);
 
 // Schedule cron resets for every day at midnight
-cron.schedule("* * * * *", async () => {
-  console.log("Resetting");
+cron.schedule("0 0 * * *", async () => {
+    console.log("It's midnight, resetting all daily time statistics");
     await resetDayCounters()
     .then((res) => console.log("Successfully reset " + res.count + " clocks"))
     .catch((err) => console.log(err));
-
 });
