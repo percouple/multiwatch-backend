@@ -14,8 +14,8 @@ cron.schedule("0 0 * * *", async () => {
 
 // Schedule cron resets for every week at midnight on Sunday
 cron.schedule("0 0 * * 0", async () => {
-    console.log("It's midnight, resetting all daily time statistics");
-    await resetDayCounters()
+    console.log("It's midnight on Sunday, resetting all weekly time statistics");
+    await resetWeekCounters()
     .then((res) => console.log("Successfully reset " + res.count + " clocks"))
     .catch((err) => console.log(err));
 });

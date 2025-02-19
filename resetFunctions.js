@@ -29,4 +29,27 @@ export const resetDayCounters = async () => {
 };
 
 // Goes through clocks database and resets week counters on clocks
-export const resetWeekCounters = () => {};
+export const resetWeekCounters = async () => {
+    const prisma = new PrismaClient();
+  async function main() {
+    const result = await prisma.clocks.updateMany({ 
+        where: {}, 
+        data: { thisWeekTime: 0 }});
+    console.log(result)
+  }
+
+  try {
+    console.log("Resetting weekly times in database");
+    const result = await main();
+    await prisma.$disconnect;
+    console.log("Weekly timers successfully reset");
+    return result;
+  } catch (error) {
+    // Handle any errors
+    console.error("Error occurred: " + error);
+    // Disconnect Prisma Client on error
+    await prisma.$disconnect();
+    // You can throw or return a custom error message here
+    throw new Error("Weekly timers not successfully reset"); // You can choose to return or throw
+  }
+};
