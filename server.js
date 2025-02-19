@@ -17,7 +17,6 @@ app.use(express.json())
 
 app.post('/auth-user', async (req, res) => {
     try {
-        
         const user = await authenticateUser(req.body.username);
         const validation = await bcrypt.compareSync(req.body.password, user.password);
         if (!validation) {
@@ -25,13 +24,13 @@ app.post('/auth-user', async (req, res) => {
         }
 
         // Generate a JWT (you should store a secret key securely)
-        const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: '1h' });
+        // const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: '1h' });
 
-        res.cookie('authToken', token, {
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 3600000
-        })
+        // res.cookie('authToken', token, {
+        //     httpOnly: true,
+        //     sameSite: 'strict',
+        //     maxAge: 3600000
+        // })
 
         return res.status(200).json({user: user, message: "YA DID IT"})
     }

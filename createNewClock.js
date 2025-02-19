@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-export default async function authenticateUser(userId) {
+export default async function createNewClock(userId) {
   const prisma = new PrismaClient();
 
   async function main() {
