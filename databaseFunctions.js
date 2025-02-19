@@ -10,7 +10,7 @@ export const resetDayCounters = async () => {
     }
 
     try {
-        console.log("Resetting daily times");
+        console.log("Resetting daily times in database");
         const result = await main()
         await prisma.$disconnect;
         console.log("Daily timers successfully reset")
