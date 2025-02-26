@@ -9,7 +9,8 @@
     "start": "node server.js",
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio",
-    "start-cron": "node ./dbMaintinenceScheduler.js"
+    "start-cron": "node ./dbMaintinenceScheduler.js",
+    "start-everything": "concurrently --kill-others \"npm run start\" \"npm run start-cron\""
   },
   "prisma": {
     "seed": "node ./prisma/seed.js"
@@ -28,6 +29,7 @@
   "dependencies": {
     "@prisma/client": "^6.1.0",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^9.1.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
