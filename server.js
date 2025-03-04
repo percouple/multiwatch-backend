@@ -7,12 +7,15 @@ import createNewUser from "./DB_Functions/createNewUser.js";
 import deleteClock from "./DB_Functions/deleteClock.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import cors from 'cors';
 import 'dotenv/config'
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
+
+app.use(cors());
 
 
 app.post('/auth-user', async (req, res) => {
