@@ -6,7 +6,6 @@ export default async function findUser(userId) {
   const prisma = new PrismaClient()
   
   async function main() {
-    console.log(userId)
     const user = await prisma.users.findUnique({
       where: {
         id: userId,

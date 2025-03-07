@@ -5,6 +5,8 @@ import createNewClock from './DB_Functions/createNewClock.js';
 import updateClock from "./DB_Functions/updateClock.js";
 import createNewUser from "./DB_Functions/createNewUser.js";
 import deleteClock from "./DB_Functions/deleteClock.js";
+import editUser from "./DB_Functions/editUser.js";
+import findUser from './DB_Functions/findUser.js'
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
@@ -91,6 +93,19 @@ app.post('/create-user', async (req, res) => {
             return res.status(409).json({message: "Username is unavailable"})
         }
         await createNewClock(user.id);
+        res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
+    } catch {
+        res.status(400).json({ message: "Heyo it broke"})
+    }
+})
+
+app.put('/edit-user', async (req, res) => {
+    console.log("Edit user server");
+    try {
+        const user = await editUser(req.body.userId, req.body.changeObj);
+        if (user === null) {
+            return res.status(409).json({message: "Username is unavailable"})
+        }
         res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
     } catch {
         res.status(400).json({ message: "Heyo it broke"})
