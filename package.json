@@ -10,7 +10,8 @@
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio",
     "start-cron": "node ./dbMaintinenceScheduler.js",
-    "start-everything": "concurrently --kill-others \"npm run start\" \"npm run start-cron\""
+    "start-everything": "concurrently --kill-others \"npm run start\" \"npm run start-cron\"",
+    "validate-server": ""
   },
   "prisma": {
     "seed": "node ./prisma/seed.js"

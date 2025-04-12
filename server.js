@@ -19,7 +19,6 @@ app.use(express.json())
 
 app.use(cors());
 
-
 app.post('/auth-user', async (req, res) => {
     try {
         const user = await authenticateUser(req.body.username);
@@ -107,6 +106,15 @@ app.put('/edit-user', async (req, res) => {
             return res.status(409).json({message: "Username is unavailable"})
         }
         res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
+    } catch {
+        res.status(400).json({ message: "Heyo it broke"})
+    }
+})
+
+app.get('/ping-server', async (req, res) => {
+    console.log("Server getting pinged");
+    try {
+        res.status(200).json({message: "HEYO IT WORKED MY MAN"})
     } catch {
         res.status(400).json({ message: "Heyo it broke"})
     }
