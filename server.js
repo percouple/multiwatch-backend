@@ -113,6 +113,7 @@ app.put('/edit-user', async (req, res) => {
 
 app.get('/ping-server', async (req, res) => {
     console.log("Server getting pinged");
+    console.log(req)
     try {
         res.status(200).json({message: "HEYO IT WORKED MY MAN"})
     } catch {
