@@ -36,7 +36,7 @@ app.post('/auth-user', async (req, res) => {
         //     maxAge: 3600000
         // })
 
-        return res.status(200).json({user: user, message: "YA DID IT"})
+        return res.status(200).json({user: user, message: "User successfully authenticated"})
     }
     catch {
         res.status(400).json({ message: "User not found"})
@@ -46,7 +46,7 @@ app.post('/auth-user', async (req, res) => {
 app.post('/get-user-clocks', async (req, res, next) => {
     try {
         const clocks = await getUserClocks(req.body.userId);
-        res.status(200).json({clocks: clocks, message: "YA DID IT"})
+        res.status(200).json({clocks: clocks, message: "User clocks successfully loaded"})
     }
     catch {
         res.status(400).json({ message: "User's clocks not found"})
@@ -56,7 +56,7 @@ app.post('/get-user-clocks', async (req, res, next) => {
 app.post('/create-clock', async (req, res) => {
     try {
         const newClock = await createNewClock(req.body.userId);
-        res.status(200).json({newClock: newClock, message: "YA DID IT"})
+        res.status(200).json({newClock: newClock, message: "New clock successfully created."})
     }
     catch {
         res.status(400).json({ message: "Clock not created"})
@@ -66,7 +66,7 @@ app.post('/create-clock', async (req, res) => {
 app.delete('/delete-clock', async (req, res) => {
     try {
         const res = await deleteClock(req.body.clockId);
-        res.status(200).json({res: res, message: "YA DID IT"})
+        res.status(200).json({res: res, message: "Clock successfully deleted."})
     }
     catch {
         res.status(400).json({ message: "Clock not deleted"})
@@ -76,7 +76,7 @@ app.delete('/delete-clock', async (req, res) => {
 app.put('/update-clock', async (req, res) => {
     try {
         const result = await updateClock(req.body.clockId, req.body.changeObj);
-        res.status(200).json({result: result, message: "YA DID IT"})
+        res.status(200).json({result: result, message: "Clock successfully updated."})
     }
     catch {
         res.status(400).json({ message: "Clock not updated"})
@@ -92,32 +92,29 @@ app.post('/create-user', async (req, res) => {
             return res.status(409).json({message: "Username is unavailable"})
         }
         await createNewClock(user.id);
-        res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
+        res.status(200).json({user: user, message: "User successfully created."})
     } catch {
-        res.status(400).json({ message: "Heyo it broke"})
+        res.status(400).json({ message: "User not successfully created."})
     }
 })
 
 app.put('/edit-user', async (req, res) => {
-    console.log("Edit user server");
     try {
         const user = await editUser(req.body.userId, req.body.changeObj);
         if (user === null) {
             return res.status(409).json({message: "Username is unavailable"})
         }
-        res.status(200).json({user: user, message: "HEYO IT WORKED MY MAN"})
+        res.status(200).json({user: user, message: "User succesfully edited."})
     } catch {
-        res.status(400).json({ message: "Heyo it broke"})
+        res.status(400).json({ message: "Error editing user."})
     }
 })
 
 app.get('/ping-server', async (req, res) => {
-    console.log("Server getting pinged");
-    console.log(req)
     try {
-        res.status(200).json({message: "HEYO IT WORKED MY MAN"})
+        res.status(200).json({message: "Server responded."})
     } catch {
-        res.status(400).json({ message: "Heyo it broke"})
+        res.status(400).json({ message: "No response from listed server."})
     }
 })
 
