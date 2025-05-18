@@ -6,8 +6,6 @@ import updateClock from "./DB_Functions/updateClock.js";
 import createNewUser from "./DB_Functions/createNewUser.js";
 import deleteClock from "./DB_Functions/deleteClock.js";
 import editUser from "./DB_Functions/editUser.js";
-import findUser from './DB_Functions/findUser.js'
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import 'dotenv/config'
@@ -119,5 +117,6 @@ app.get('/ping-server', async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
+    console.log(`
+        Server running on port ${port}`)
 })

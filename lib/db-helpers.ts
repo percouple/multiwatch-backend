@@ -1,7 +1,6 @@
 import prisma from "./db";
 
 export async function deleteClock(id: string, userId: string) {
-  console.log("DELETING");
   await prisma.clocks.delete({
     where: {
       id: id,
@@ -96,10 +95,9 @@ export async function authenticateUser(formData) {
       password: password,
     },
   });
-  setTimeout(() => {
-    console.log("STUFF")
-    return user;
-  }, 1000)
+  // setTimeout(() => {
+  //   return user;
+  // }, 10000)
 }
 
 // For client-side create-user page
